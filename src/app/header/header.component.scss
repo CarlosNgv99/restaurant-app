@@ -1,0 +1,26 @@
+$lt-gray: #ddd;
+$background-dark: #181d5a;
+$background-light: #4251aa;
+$background-pale: #748ee2;
+$background-darker: #070938;
+@mixin zero-margin($pad-up-down, $pad-left-right) {
+    margin: 0px auto;
+    padding: $pad-up-down $pad-left-right;
+}
+
+.toolbar {
+    background: $background-dark ;
+    color: white;
+}
+
+
+.jumbotron {
+    @include zero-margin(70px,30px);
+    background: $background-light ;
+    color:floralwhite;
+    min-height: 150px;
+}
+
+.active {
+  background: $background-darker; // Highlights the button of the section your are looking at.
+}
