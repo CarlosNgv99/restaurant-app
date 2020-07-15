@@ -9,15 +9,25 @@ export class DishService {
   constructor() { }
 
   getDishes(): Promise<Dish[]>{
-    return Promise.resolve(DISHES);
+    return new Promise(resolve=> {
+      // Simulate server latency with 2 second delay
+        setTimeout(() => resolve(DISHES), 2000);
+    });
   }
 
   getDish(id: string): Promise<Dish> {
-    return Promise.resolve(DISHES.filter((dish) => (dish.id == id))[0]); // Returns an array, but with the [0] returns the first import statement
-                                                        // of this array.
+
+    return new Promise(resolve => {
+      // Simulate server latency with 2 second delay
+      setTimeout(() => resolve(DISHES.filter((dish) => (dish.id == id))[0]),2000);
+    });                                                    // of this array.
   }
   getFeaturedDish(): Promise<Dish>{
-    return  Promise.resolve(DISHES.filter((dish) => dish.featured)[0]); // return dish if featured is true
+
+    return new Promise(resolve => {
+      // Simulate server latency with 2 second delay
+      setTimeout(() => resolve(DISHES.filter((dish) => dish.featured)[0]),2000);
+    }); 
   }
 
 }
