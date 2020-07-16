@@ -33,6 +33,7 @@ import { ContactComponent } from './contact/contact.component';
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LoginComponent } from './login/login.component';
+import { LeaderService } from './services/leader.service';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { LoginComponent } from './login/login.component';
   ],
   providers: [ // HERE YOU SPECIFY SERVICES
     DishService,
-    PromotionService
+    PromotionService,
+    LeaderService
   ],
   bootstrap: [AppComponent]
 })
