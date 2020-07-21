@@ -19,7 +19,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSliderModule } from '@angular/material/slider';
+import { HttpClientModule } from '@angular/common/http';
 
+import { baseURL } from './share/baseurl';
 
 import { AppComponent } from './app.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
@@ -34,6 +37,9 @@ import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LoginComponent } from './login/login.component';
 import { LeaderService } from './services/leader.service';
+import { ProcessHttpMsgService} from './services/process-http-msg.service';
+import { from } from 'rxjs';
+import { HighlightDirective } from './directives/highlight.directive';
 
 
 @NgModule({
@@ -46,7 +52,8 @@ import { LeaderService } from './services/leader.service';
     HomeComponent,
     AboutComponent,
     ContactComponent,
-    LoginComponent
+    LoginComponent,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,
@@ -66,7 +73,9 @@ import { LeaderService } from './services/leader.service';
     ReactiveFormsModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSliderModule,
+    HttpClientModule
   ],
   entryComponents: [
     LoginComponent
@@ -74,7 +83,12 @@ import { LeaderService } from './services/leader.service';
   providers: [ // HERE YOU SPECIFY SERVICES
     DishService,
     PromotionService,
-    LeaderService
+    LeaderService,
+     ProcessHttpMsgService,
+    {
+      provide: 'BaseURL',
+      useValue: baseURL
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,29 +1,49 @@
 import { Injectable } from '@angular/core';
 import { Dish } from '../share/dish';
-import { DISHES } from '../share/dishes';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { baseURL } from '../share/baseurl';
+import { map, catchError } from 'rxjs/operators';
+import { ProcessHttpMsgService } from '../services/process-http-msg.service';
 @Injectable({
   providedIn: 'root',
 })
 export class DishService {
-  constructor() {}
+  constructor(private http: HttpClient, 
+    private processHttpMsgService: ProcessHttpMsgService) {}
 
   getDishes(): Observable<Dish[]> {
-    return of(DISHES).pipe(delay(1000)); // converted to a promise
+    return this.http.get<Dish[]>(baseURL + 'dishes')
+    .pipe(catchError(this.processHttpMsgService.handleError)); // converted to a promise
   }
 
   getDish(id: string): Observable<Dish> {
-    return of(DISHES.filter((dish) => dish.id == id)[0]).pipe(delay(1000));
+    return this.http.get<Dish>(baseURL + 'dishes/' + id)
+    .pipe(catchError(this.processHttpMsgService.handleError));
   }
 
   getFeaturedDish(): Observable<Dish> {
-    return of(DISHES.filter((dish) => dish.featured)[0]).pipe(delay(1000));
+    return this.http.get<Dish[]>(baseURL + 'dishes?featured=true')
+    .pipe(map(dishes => dishes[0]))
+    .pipe(catchError(this.processHttpMsgService.handleError));
   }
 
   getDishIds(): Observable<string[] | any>{
-    return of(DISHES.map(dish => dish.id)); // Iterates each dish of the list and extracts each
-    // id of each dish to return a list of ids
+    return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id)))
+    .pipe(catchError(error => error)); // since the error handle is already implemented to getDishes(),
+    // is only necessary to catch the error.
+  }
+
+  putDish(dish:Dish): Observable <Dish> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json' // Specifies that it's a json 
+
+      })
+    };
+
+    return this.http.put<Dish>(baseURL + 'dishes/' + dish.id, dish, httpOptions)
+    .pipe(catchError(this.processHttpMsgService.handleError));
   }
 
 }
